@@ -1,6 +1,6 @@
 package com.example.lenovo.myapplication.newapp
 
-import com.example.lenovo.myapplication.RootData
+import com.example.lenovo.myapplication.newapp.RootData
 import io.reactivex.Observable
 import retrofit2.http.*
 

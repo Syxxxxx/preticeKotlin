@@ -6,18 +6,25 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.example.lenovo.myapplication.R
-import com.example.lenovo.myapplication.newapp.RootData
+import com.example.lenovo.myapplication.databinding.ActivityMain3Binding
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
 
 class Main3Activity : AppCompatActivity() {
+    private var mViewModel: ImageViewModel? = null
+    private var mBinding: ActivityMain3Binding? = null
     @BindView(R.id.click_me_BN)
     lateinit var clickMeBN: Button
 
@@ -28,15 +35,26 @@ class Main3Activity : AppCompatActivity() {
     lateinit var text_Num: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main3)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main3);
+        //setContentView(R.layout.activity_main3)
         ButterKnife.bind(this)
+        mViewModel = ViewModelProvider(
+                this, AndroidViewModelFactory(application)
+        ).get(ImageViewModel::class.java)
+        mViewModel!!.image.observe(this,object :androidx.lifecycle.Observer<RootData>{
+            override fun onChanged(@Nullable t: RootData?) {
+                mBinding?.imageBean= t
+            }
+
+        })
         //doRequestByRxRetrofit();
     }
     @OnClick(R.id.click_me_BN)
     open fun onClick(): Unit {
         val aNum = Integer.valueOf(text_Num!!.text.toString())
         if (aNum >= 1 && aNum <= 11) {
-            doRequestByRxRetrofit(aNum)
+            mViewModel?.doRequestByRxRetrofit(aNum)
+            //doRequestByRxRetrofit(aNum)
         } else {
             Toast.makeText(this@Main3Activity, "No Image of This Id", Toast.LENGTH_SHORT).show()
         }
@@ -96,6 +114,12 @@ class Main3Activity : AppCompatActivity() {
     }
 
 
+}
+@BindingAdapter("android:url")
+fun setImageUrl(imageView: ImageView, url: String?) {
+    Glide.with(imageView.context)
+            .load(url)
+            .into(imageView)
 }
 
 
