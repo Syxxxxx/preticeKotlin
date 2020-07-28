@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.lenovo.myapplication.newapp.BaseStatus.BaseHttpResponse;
-import com.example.lenovo.myapplication.newapp.BaseStatus.BaseObserverListener;
+import com.example.lenovo.myapplication.newapp.BaseStatus.BaseObserver;
 import com.example.lenovo.myapplication.newapp.BaseStatus.ErrorBean;
 
 import org.json.JSONException;
@@ -25,7 +25,6 @@ import javax.net.ssl.TrustManagerFactory;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.CacheControl;
 import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -101,39 +100,39 @@ public class RetrofitManager {
         }
         return retrofit;
     }
-    /**
-     * 建立请求
-     */
-    public <T> DisposableObserver<BaseHttpResponse<T>> doRequest(Observable<BaseHttpResponse<T>> observable, final BaseObserverListener<T> observerListener) {
-
-        return observable
-                .compose(RxSchedulers.<BaseHttpResponse<T>>io_main())
-                .subscribeWith(new DisposableObserver<BaseHttpResponse<T>>() {
-
-                    @Override
-                    public void onNext(BaseHttpResponse<T> result) {
-                        if (result.getStatus()== 200) {
-                            observerListener.onSuccess(result.getData());
-                        } else {
-                            ErrorBean errorBean = new ErrorBean();
-                            errorBean.setCode(result.getStatus() + "");
-                            errorBean.setMsg(result.getMessage());
-                            observerListener.onBusinessError(errorBean);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        observerListener.onError(e);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        observerListener.onComplete();
-                    }
-                });
-
-    }
+//    /**
+//     * 建立请求
+//     */
+//    public <T> DisposableObserver<BaseHttpResponse<T>> doRequest(Observable<BaseHttpResponse<T>> observable, final BaseObserver<T> observerListener) {
+//
+//        return observable
+//                .compose(RxSchedulers.<BaseHttpResponse<T>>io_main())
+//                .subscribeWith(new DisposableObserver<BaseHttpResponse<T>>() {
+//
+//                    @Override
+//                    public void onNext(BaseHttpResponse<T> result) {
+//                        if (result.getStatus()== 200) {
+//                            observerListener.onSuccess(result.getData());
+//                        } else {
+//                            ErrorBean errorBean = new ErrorBean();
+//                            errorBean.setCode(result.getStatus() + "");
+//                            errorBean.setMsg(result.getMessage());
+//                            observerListener.onBusinessError(errorBean);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        observerListener.onError(e);
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        observerListener.onComplete();
+//                    }
+//                });
+//
+//    }
     /**
      * 实现https请求
      */

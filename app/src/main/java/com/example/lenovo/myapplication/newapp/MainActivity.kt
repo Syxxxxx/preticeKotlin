@@ -21,5 +21,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,Main2Activity::class.java)
             startActivity(intent)
         }
+        btn_cal_date.setOnClickListener {
+            val intent = Intent(this,DateCalActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

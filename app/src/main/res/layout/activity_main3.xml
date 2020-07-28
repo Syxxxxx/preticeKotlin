@@ -22,7 +22,7 @@
             android:layout_above="@id/text_Num"
             android:text="Hello World!"
             android:textSize="16sp"
-            android:url="@{imageBean.data$app_debug.info.file_url}" />
+            android:url="@{imageBean.info.file_url}" />
 
         <EditText
             android:id="@+id/text_Num"

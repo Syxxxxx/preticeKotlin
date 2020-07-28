@@ -87,31 +87,31 @@ class Main3Activity : AppCompatActivity() {
 //        }
 //    }
 
-    private fun doRequestByRxRetrofit(id:Int) {
-        RetrofitManager.getInstance().requestService.getCall("App.CDN.GetDocInfoById", id.toString())
-                ?.compose(RxSchedulers.io_main())
-                ?.safeSubscribe(object:Observer<RootData?>{
-                    override fun onComplete() {
-                        Toast.makeText(this@Main3Activity, "Get Image", Toast.LENGTH_SHORT).show()
-                        Log.e("TAG", "onComplete");
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-
-                    }
-
-                    override fun onNext(t: RootData) {
-                        val imageUrl: String = t.data?.info?.file_url.toString()
-                        resultTV?.let { Glide.with(this@Main3Activity).load(imageUrl).into(it) }
-                        //Log.e("TAG", "response == " + t.data.ganmao)
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e("TAG", "onError=" + e.message);
-                    }
-
-                })
-    }
+//    private fun doRequestByRxRetrofit(id:Int) {
+//        RetrofitManager.getInstance().requestService.getCall("App.CDN.GetDocInfoById", id.toString())
+//                ?.compose(RxSchedulers.io_main())
+//                ?.safeSubscribe(object:Observer<RootData?>{
+//                    override fun onComplete() {
+//                        Toast.makeText(this@Main3Activity, "Get Image", Toast.LENGTH_SHORT).show()
+//                        Log.e("TAG", "onComplete");
+//                    }
+//
+//                    override fun onSubscribe(d: Disposable) {
+//
+//                    }
+//
+//                    override fun onNext(t: RootData) {
+//                        val imageUrl: String = t.data?.info?.file_url.toString()
+//                        resultTV?.let { Glide.with(this@Main3Activity).load(imageUrl).into(it) }
+//                        //Log.e("TAG", "response == " + t.data.ganmao)
+//                    }
+//
+//                    override fun onError(e: Throwable) {
+//                        Log.e("TAG", "onError=" + e.message);
+//                    }
+//
+//                })
+//    }
 
 
 }

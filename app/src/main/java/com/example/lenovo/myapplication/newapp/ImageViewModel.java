@@ -6,6 +6,10 @@ import io.reactivex.disposables.Disposable;
 
 import androidx.lifecycle.ViewModel;
 
+import com.example.lenovo.myapplication.newapp.BaseStatus.BaseHttpResponse;
+import com.example.lenovo.myapplication.newapp.BaseStatus.BaseObserver;
+
+import org.jetbrains.annotations.Nullable;
 
 
 public class ImageViewModel extends ViewModel {
@@ -22,27 +26,16 @@ public class ImageViewModel extends ViewModel {
     public void doRequestByRxRetrofit(int id) {
         RetrofitManager.getInstance().getRequestService().getCall("App.CDN.GetDocInfoById", String.valueOf(id))
                 .compose(RxSchedulers.io_main())
-                .subscribe(new Observer<RootData>() {
-
+                .subscribe(new BaseObserver<RootData>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
+                    public void onSuccess(RootData result) {
+                        mImage.setValue(result);
+                    }
+                    @Override
+                    public void onFailure(@Nullable Throwable e, @Nullable String errorMsg) {
 
                     }
 
-                    @Override
-                    public void onNext(RootData rootData) {
-                        mImage.setValue(rootData);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
                 });
     }
 }
